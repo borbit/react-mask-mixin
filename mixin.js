@@ -4,7 +4,7 @@ var MASK_REGEX = {'9': /\d/, 'A': /[A-Za-z]/}
 var MASK_CHARS = Object.keys(MASK_REGEX)
 var PTRN_REGEX = new RegExp('[' + MASK_CHARS.join(',') + ']', 'g')
 
-root.ReactMaskMixin = {
+var ReactMaskMixin = {
   componentWillMount: function() {
     this.mask = {
       props: {
@@ -132,4 +132,22 @@ root.ReactMaskMixin = {
   }
 }
 
-})(window)
+// Export ReactMaskMixin for CommonJS. If being loaded as an
+// AMD module, define it as such. Otherwise, just add 
+// `ReactMaskMixin` to the global object
+if (typeof exports !== 'undefined') {
+  if (typeof module !== 'undefined' && module.exports) {
+    exports = module.exports = ReactMaskMixin;
+  }
+  exports.ReactMaskMixin = ReactMaskMixin;
+} else if (typeof define === 'function' && define.amd) {
+  // Return the ReactMaskMixin as an AMD module:
+  define([], function() {
+    return ReactMaskMixin;
+  });
+} else {
+  // Declare `ReactMaskMixin` on the root (global/window) object:
+  root['ReactMaskMixin'] = ReactMaskMixin;
+}
+
+})(this)
