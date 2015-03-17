@@ -1,0 +1,36 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>react-mask-mixin</title>
+</head>
+<body>
+  <div id="example1"></div>
+  <div id="example2"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.0/react-with-addons.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.5.0/lodash.min.js"></script>
+  <script src="../mixin.js"></script>
+  <script>
+    var Input = React.createClass({
+      mixins: [ReactMaskMixin],
+      render: function() {
+        return React.DOM.input(_.assign({}, this.props, this.mask.props))
+      }
+    })
+
+    var example1 = document.getElementById('example1')
+    var example2 = document.getElementById('example2')
+
+    React.render(React.createElement(Input, {
+      mask: '+380 (99) 999-99-99',
+      placeholder: '+380 (99) 999-99-99',
+      size: 50
+    }), example1)
+
+    React.render(React.createElement(Input, {
+      mask: 'AA 999999',
+      placeholder: 'AA 999999',
+      size: 50
+    }), example2)
+  </script>
+</body>
+</html>
