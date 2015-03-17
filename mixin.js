@@ -1,6 +1,6 @@
 (function(root) {
 
-var MASK_REGEX = {'9': /\d/, 'A': /\D/}
+var MASK_REGEX = {'9': /\d/, 'A': /[A-Za-z]/}
 var MASK_CHARS = Object.keys(MASK_REGEX)
 var PTRN_REGEX = new RegExp('[' + MASK_CHARS.join(',') + ']', 'g')
 

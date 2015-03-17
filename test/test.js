@@ -118,6 +118,19 @@ describe('react-mask-mixin — mask behaviour with input', function() {
     expect(input.value).to.be('BBB-B__')
   })
 
+  it('should replace mask with user input #10', function() {
+    var input = Input({mask: "AAA AAA"})
+
+    input.setSelectionRange(3, 3)
+    TestUtils.Simulate.keyDown(input)
+    TestUtils.Simulate.change(input, {target: {value: 'BBB ___'}})
+
+    input.setSelectionRange(2, 2)
+    TestUtils.Simulate.change(input, {target: {value: 'BB ___'}})
+
+    expect(input.value).to.be('BB_ ___')
+  })
+
   it('should remove mask only when input is blured', function() {
     var input = Input({mask: "AAA-999-AAA"})
     TestUtils.Simulate.focus(input)
@@ -141,6 +154,12 @@ describe('react-mask-mixin — coursor behaviour', function() {
     var input = Input({mask: "$99.99"})
     TestUtils.Simulate.focus(input)
     expect(input.selectionStart).to.be(1)
+  })
+
+  it('should move cursor to the beginning when input is focused #3', function() {
+    var input = Input({mask: "AAA AAA"})
+    TestUtils.Simulate.focus(input)
+    expect(input.selectionStart).to.be(0)
   })
 
   it('should move cursor to the end of user input #1', function() {
