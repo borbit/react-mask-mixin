@@ -18,7 +18,7 @@ My solution is next:
 2. Add `react-mask-mixin` into 'mixins' array
 3. Spread `this.mask.props` over the `<input/>`
 
-`react-mask-mixin` polutes scope of every instance of your component with `mask` object where It keeps eveithing needed. `mask.props` consists of several event handlers and `value` prop that you should necessarily spread over the `<input/>` element in order to enable masking functionality.
+`react-mask-mixin` polutes your component scope with `mask` object where It keeps eveithing needed. `mask.props` consists of several event handlers and `value` prop that you should necessarily spread over the `<input/>` element in order to enable masking functionality.
 
 As a code it would look like this:
 ```
