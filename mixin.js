@@ -19,6 +19,10 @@ var ReactMaskMixin = {
       cursorPrev: 0,
       cursor: 0
     }
+
+    if (this.props.value && this.props.mask) {
+      this.processValue(this.props.value)
+    }
   },
 
   componentDidUpdate: function() {
@@ -72,12 +76,11 @@ var ReactMaskMixin = {
         }
       }
     }
-
-    cursorMax = Math.max(cursorMax, cursorMin)
-
+    
     var cursorPrev = this.mask.cursor
-    var cursorCurr = this.getDOMNode().selectionStart
+    var cursorCurr = this.isMounted() ? this.getDOMNode().selectionStart : 0
     var removing = this.mask.cursor > cursorCurr
+    cursorMax = Math.max(cursorMax, cursorMin)
 
     if (cursorCurr <= cursorMin) {
       cursorCurr = cursorMin
