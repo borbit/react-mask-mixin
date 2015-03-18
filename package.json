@@ -1,11 +1,8 @@
 {
   "name": "react-mask-mixin",
   "version": "0.0.1",
-  "description": "React mixin for input mask",
+  "description": "React mixin to create input mask in text input",
   "main": "mixin.js",
   "author": "Serge Borbit",
-  "license": "MIT",
-  "dependencies": {
-    "react": "^0.13.0"
-  }
+  "license": "MIT"
 }
