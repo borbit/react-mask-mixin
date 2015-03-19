@@ -1,5 +1,7 @@
 # react-mask-mixin
 
+![gif](http://g.recordit.co/nKufU2TKCj.gif)
+
 Input mask for text input.
 
 [Example](http://borbit.github.io/react-mask-mixin/)
