@@ -10,7 +10,7 @@ npm install react-mask-mixin
 ```
 
 ## Usage
-The goal I wanted to reach in the very beginning was to make basic `<input/>` element understand custom property `mask` which would define strict format for user input (for example date or phone number). Somewhat, I thought that `LinkedStateMixin`, from `React.addons`, made input elements understand `valueLink` property (that looks like custom at the first glance) and I naively believed that it was possible to write similar solution. After several minutes of digging into React source code it turned out that `valueLink` was a part of `React.DOM.input` and `React.DOM.textarea` implementation and `LinkedStateMixin` just utilized it. Now I wander if there is a case when `valueLink` can be used without `LinkedStateMixin`.
+The goal I wanted to reach in the very beginning was to make basic `<input/>` element understand custom property `mask` which would define strict format for user input (for example date or phone number). Somewhat, I thought that `LinkedStateMixin`, from `React.addons`, made input elements understand `valueLink` property (that looks like custom at the first glance) and I naively believed that it was possible to write similar solution. After several minutes of digging into React source code it turned out that `valueLink` was a part of `<input/>` and `<textarea/>` implementation and `LinkedStateMixin` just utilized it. Now I wander if there is a case when `valueLink` can be used without `LinkedStateMixin`.
 
 My solution is next:
 
