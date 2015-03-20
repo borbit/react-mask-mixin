@@ -2,7 +2,7 @@
 // http://github.com/borbit/react-mask-mixin
 // Copyright (c) 2015 Serge Borbit
 // Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
-// Version: 0.0.1
+// Version: 0.0.2
 (function(root) {
 
 var MASK_REGEX = {'9': /\d/, 'A': /[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/}
@@ -14,10 +14,10 @@ var ReactMaskMixin = {
     this.mask = {
       props: {
         value: this.props.value,
-        onClick: this._onChange,
+        onClick: this._onClick,
         onChange: this._onChange,
         onKeyDown: this._onKeyDown,
-        onFocus: this._onChange,
+        onFocus: this._onFocus,
         onBlur: this._onBlur
       },
       empty: true,
@@ -118,25 +118,54 @@ var ReactMaskMixin = {
   },
 
   _onBlur: function(e) {
-    var cursor = this.mask.cursor
-    var value = this.mask.props.value
+    if (this.props.mask) {
+      var cursor = this.mask.cursor
+      var value = this.mask.props.value
 
-    if (!this.mask.empty) {
-      this.mask.props.value = value.substr(0, cursor)
-    } else {
-      this.mask.props.value = ''
+      if (!this.mask.empty) {
+        this.mask.props.value = value.substr(0, cursor)
+      } else {
+        this.mask.props.value = ''
+      }
+
+      this.forceUpdate()
     }
-
-    this.forceUpdate()
+    if (this.props.onBlur) {
+      this.props.onBlur(e)
+    }
   },
 
   _onChange: function(e) {
-    this.processValue(e.target.value)
-    this.forceUpdate()
+    if (this.props.mask) {
+      this.processValue(e.target.value)
+      this.forceUpdate()
+    }
+    if (this.props.onChange) {
+      this.props.onChange(e)
+    }
   },
 
-  _onKeyDown: function() {
-    this.mask.cursor = this.getDOMNode().selectionStart
+  _onKeyDown: function(e) {
+    if (this.props.mask) {
+      this.mask.cursor = this.getDOMNode().selectionStart
+    }
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(e)
+    }
+  },
+
+  _onFocus: function(e) {
+    this._onChange(e)
+    if (this.props.onFocus) {
+      this.props.onFocus(e)
+    }
+  },
+
+  _onClick: function(e) {
+    this._onChange(e)
+    if (this.props.onClick) {
+      this.props.onClick(e)
+    }
   }
 }
 

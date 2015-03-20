@@ -349,4 +349,39 @@ describe('react-mask-mixin — public api', function() {
     var input = Input({mask: '---999---999---', value: '111222'})
     expect(input.value).to.be('---111---222---')
   })
+
+  it('should call initial onFocus event handler if exists', function() {
+    var spy = sinon.spy()
+    var input = Input({mask: '---999---999---', onFocus: spy})
+    TestUtils.Simulate.focus(input)
+    expect(spy.called).to.be(true)
+  })
+
+  it('should call initial onClick event handler if exists', function() {
+    var spy = sinon.spy()
+    var input = Input({mask: '---999---999---', onClick: spy})
+    TestUtils.Simulate.click(input)
+    expect(spy.called).to.be(true)
+  })
+
+  it('should call initial onChange event handler if exists', function() {
+    var spy = sinon.spy()
+    var input = Input({mask: '---999---999---', onChange: spy})
+    TestUtils.Simulate.change(input, {target: {value: 'BB ___'}})
+    expect(spy.called).to.be(true)
+  })
+
+  it('should call initial onKeyDown event handler if exists', function() {
+    var spy = sinon.spy()
+    var input = Input({mask: '---999---999---', onKeyDown: spy})
+    TestUtils.Simulate.keyDown(input)
+    expect(spy.called).to.be(true)
+  })
+
+  it('should call initial onBlur event handler if exists', function() {
+    var spy = sinon.spy()
+    var input = Input({mask: '---999---999---', onBlur: spy})
+    TestUtils.Simulate.blur(input)
+    expect(spy.called).to.be(true)
+  })
 })
