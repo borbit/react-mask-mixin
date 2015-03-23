@@ -1,8 +1,17 @@
 {
   "name": "react-mask-mixin",
-  "version": "0.0.2",
-  "description": "React mixin to create input mask in text input",
+  "version": "0.0.3",
+  "description": "Input mask for text input",
+  "homepage": "https://github.com/borbit/react-mask-mixin",
+  "author": {
+    "name": "Serge Borbit",
+    "email": "serge.borbit@gmail.com"
+  },
+  "keywords": [
+    "react",
+    "mixin",
+    "mask"
+  ],
   "main": "mixin.js",
-  "author": "Serge Borbit",
   "license": "MIT"
 }

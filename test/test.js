@@ -119,6 +119,12 @@ describe('react-mask-mixin — mask behaviour with input', function() {
   })
 
   it('should replace mask with user input #10', function() {
+    var input = Input({mask: '******'})
+    TestUtils.Simulate.change(input, {target: {value: '1a2b'}})
+    expect(input.value).to.be('1a2b__')
+  })
+
+  it('should replace mask with user input #11', function() {
     var input = Input({mask: 'AAA AAA'})
 
     input.setSelectionRange(3, 3)

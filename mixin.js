@@ -2,10 +2,15 @@
 // http://github.com/borbit/react-mask-mixin
 // Copyright (c) 2015 Serge Borbit
 // Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
-// Version: 0.0.2
+// Version: 0.0.3
 (function(root) {
 
-var MASK_REGEX = {'9': /\d/, 'A': /[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/}
+var MASK_REGEX = {
+  '9': /\d/,
+  'A': /[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/,
+  '*': /[\dA-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/
+}
+
 var MASK_CHARS = Object.keys(MASK_REGEX)
 var PTRN_REGEX = new RegExp('[' + MASK_CHARS.join(',') + ']', 'g')
 
