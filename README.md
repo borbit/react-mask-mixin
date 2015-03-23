@@ -47,7 +47,7 @@ React.render(<Component/>, document.body)
 
 - `9` - numeric
 - `A` - alphabetical
-- `*` - alphanumeric (TODO)
+- `*` - alphanumeric
 
 ## Tests
 
