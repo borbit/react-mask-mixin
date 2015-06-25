@@ -86,7 +86,7 @@ var ReactMaskMixin = {
         }
       }
     }
-    
+
     var cursorPrev = this.mask.cursor
     var cursorCurr = this.isMounted() ? this.getDOMNode().selectionStart : 0
     var removing = this.mask.cursor > cursorCurr
@@ -143,6 +143,7 @@ var ReactMaskMixin = {
   _onChange: function(e) {
     if (this.props.mask) {
       this.processValue(e.target.value)
+      e.target.value = this.mask.props.value
       this.forceUpdate()
     }
     if (this.props.onChange) {
@@ -175,7 +176,7 @@ var ReactMaskMixin = {
 }
 
 // Export ReactMaskMixin for CommonJS. If being loaded as an
-// AMD module, define it as such. Otherwise, just add 
+// AMD module, define it as such. Otherwise, just add
 // `ReactMaskMixin` to the global object
 if (typeof exports !== 'undefined') {
   if (typeof module !== 'undefined' && module.exports) {
