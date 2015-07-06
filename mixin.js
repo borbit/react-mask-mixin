@@ -40,6 +40,11 @@ var ReactMaskMixin = {
       this.mask.cursor,
       this.mask.cursor
     )
+    
+    if (document.selection) {
+      var selection = document.selection.createRange()
+      selection.moveStart('character', this.mask.cursor)
+    }
   },
 
   processValue: function(value) {
