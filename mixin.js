@@ -36,10 +36,14 @@ var ReactMaskMixin = {
   },
 
   componentDidUpdate: function() {
-    this.getDOMNode().setSelectionRange(
-      this.mask.cursor,
-      this.mask.cursor
-    )
+    var input = this.getDOMNode();
+    
+    if (input === document.activeElement) {
+      input.setSelectionRange(
+        this.mask.cursor,
+        this.mask.cursor
+      )
+    }
   },
 
   processValue: function(value) {
