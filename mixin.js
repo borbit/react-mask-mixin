@@ -2,7 +2,7 @@
 // http://github.com/borbit/react-mask-mixin
 // Copyright (c) 2015 Serge Borbit
 // Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
-// Version: 0.0.3
+// Version: 0.0.5
 (function(root) {
 
 var MASK_REGEX = {
