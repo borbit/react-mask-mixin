@@ -1,31 +1,49 @@
+// react-mask-mixin
+// http://github.com/borbit/react-mask-mixin
+// Copyright (c) 2015 Serge Borbit
+// Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
+// Version: 0.0.5
 (function(root) {
 
-var MASK_REGEX = {'9': /\d/, 'A': /[A-Za-z]/}
+var MASK_REGEX = {
+  '9': /\d/,
+  'A': /[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/,
+  '*': /[\dA-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/
+}
+
 var MASK_CHARS = Object.keys(MASK_REGEX)
 var PTRN_REGEX = new RegExp('[' + MASK_CHARS.join(',') + ']', 'g')
 
-root.ReactMaskMixin = {
+var ReactMaskMixin = {
   componentWillMount: function() {
     this.mask = {
       props: {
         value: this.props.value,
-        onClick: this._onChange,
+        onClick: this._onClick,
         onChange: this._onChange,
         onKeyDown: this._onKeyDown,
-        onFocus: this._onChange,
+        onFocus: this._onFocus,
         onBlur: this._onBlur
       },
       empty: true,
       cursorPrev: 0,
       cursor: 0
     }
+
+    if (this.props.value && this.props.mask) {
+      this.processValue(this.props.value)
+    }
   },
 
   componentDidUpdate: function() {
-    this.getDOMNode().setSelectionRange(
-      this.mask.cursor,
-      this.mask.cursor
-    )
+    var input = this.getDOMNode();
+    
+    if (input === document.activeElement) {
+      input.setSelectionRange(
+        this.mask.cursor,
+        this.mask.cursor
+      )
+    }
   },
 
   processValue: function(value) {
@@ -73,11 +91,10 @@ root.ReactMaskMixin = {
       }
     }
 
-    cursorMax = Math.max(cursorMax, cursorMin)
-
     var cursorPrev = this.mask.cursor
-    var cursorCurr = this.getDOMNode().selectionStart
+    var cursorCurr = this.isMounted() ? this.getDOMNode().selectionStart : 0
     var removing = this.mask.cursor > cursorCurr
+    cursorMax = Math.max(cursorMax, cursorMin)
 
     if (cursorCurr <= cursorMin) {
       cursorCurr = cursorMin
@@ -110,26 +127,74 @@ root.ReactMaskMixin = {
   },
 
   _onBlur: function(e) {
-    var cursor = this.mask.cursor
-    var value = this.mask.props.value
+    if (this.props.mask) {
+      var cursor = this.mask.cursor
+      var value = this.mask.props.value
 
-    if (!this.mask.empty) {
-      this.mask.props.value = value.substr(0, cursor)
-    } else {
-      this.mask.props.value = ''
+      if (!this.mask.empty) {
+        this.mask.props.value = value.substr(0, cursor)
+      } else {
+        this.mask.props.value = ''
+      }
+
+      this.forceUpdate()
     }
-
-    this.forceUpdate()
+    if (this.props.onBlur) {
+      this.props.onBlur(e)
+    }
   },
 
   _onChange: function(e) {
-    this.processValue(e.target.value)
-    this.forceUpdate()
+    if (this.props.mask) {
+      this.processValue(e.target.value)
+      e.target.value = this.mask.props.value
+      this.forceUpdate()
+    }
+    if (this.props.onChange) {
+      this.props.onChange(e)
+    }
   },
 
-  _onKeyDown: function() {
-    this.mask.cursor = this.getDOMNode().selectionStart
+  _onKeyDown: function(e) {
+    if (this.props.mask) {
+      this.mask.cursor = this.getDOMNode().selectionStart
+    }
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(e)
+    }
+  },
+
+  _onFocus: function(e) {
+    this._onChange(e)
+    if (this.props.onFocus) {
+      this.props.onFocus(e)
+    }
+  },
+
+  _onClick: function(e) {
+    this._onChange(e)
+    if (this.props.onClick) {
+      this.props.onClick(e)
+    }
   }
 }
 
-})(window)
+// Export ReactMaskMixin for CommonJS. If being loaded as an
+// AMD module, define it as such. Otherwise, just add
+// `ReactMaskMixin` to the global object
+if (typeof exports !== 'undefined') {
+  if (typeof module !== 'undefined' && module.exports) {
+    exports = module.exports = ReactMaskMixin;
+  }
+  exports.ReactMaskMixin = ReactMaskMixin;
+} else if (typeof define === 'function' && define.amd) {
+  // Return the ReactMaskMixin as an AMD module:
+  define([], function() {
+    return ReactMaskMixin;
+  });
+} else {
+  // Declare `ReactMaskMixin` on the root (global/window) object:
+  root['ReactMaskMixin'] = ReactMaskMixin;
+}
+
+})(this)
