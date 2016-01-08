@@ -24,12 +24,13 @@ Mixin polutes your component scope with `mask` object where It keeps eveithing n
 
 As a code it would look like this:
 ```javascript
-var React = require('react/addons')
+var React = require('react')
+var ReactDOM = require('react-dom')
 var ReactMaskMixin = require('react-mask-mixin')
 
-var Input = React.createElement({
+var Input = React.createClass({
   mixins: [ReactMaskMixin],
-  render(): {
+  render() {
     return <input {...this.props} {...this.mask.props}/>
   }
 })
@@ -40,7 +41,7 @@ var Component = React.createElement({
   }
 })
 
-React.render(<Component/>, document.body)
+ReactDOM.render(<Component/>, document.body)
 ```
 
 ### Masking definitions
@@ -53,7 +54,7 @@ React.render(<Component/>, document.body)
 
 react-mask-mixin is covered by [Mocha](http://mochajs.org/) tests. To run tests just open `test/test.html` in a browser.
 
-## License 
+## License
 
 react-mask-mixin may be freely distributed under the [MIT license](http://en.wikipedia.org/wiki/MIT_License#License_terms).
 

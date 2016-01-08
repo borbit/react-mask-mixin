@@ -37,7 +37,7 @@ var ReactMaskMixin = {
 
   componentDidUpdate: function() {
     var input = this.getDOMNode();
-    
+
     if (input === document.activeElement) {
       input.setSelectionRange(
         this.mask.cursor,
@@ -152,6 +152,9 @@ var ReactMaskMixin = {
     }
     if (this.props.onChange) {
       this.props.onChange(e)
+    }
+    if (this.props.valueLink) {
+      this.props.valueLink.requestChange(e.target.value)
     }
   },
 
