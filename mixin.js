@@ -2,7 +2,7 @@
 // http://github.com/borbit/react-mask-mixin
 // Copyright (c) 2015 Serge Borbit
 // Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
-// Version: 0.0.5
+// Version: 0.0.7
 (function(root) {
 
 var MASK_REGEX = {
@@ -135,6 +135,13 @@ var ReactMaskMixin = {
         this.mask.props.value = value.substr(0, cursor)
       } else {
         this.mask.props.value = ''
+      }
+
+      if (this.props.onChange) {
+        this.props.onChange(e)
+      }
+      if (this.props.valueLink) {
+        this.props.valueLink.requestChange(this.mask.props.value)
       }
 
       this.forceUpdate()
