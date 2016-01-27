@@ -25,6 +25,8 @@ var ReactMaskMixin = {
         onFocus: this._onFocus,
         onBlur: this._onBlur
       },
+      focused: false,
+      focusing: false,
       empty: true,
       cursorPrev: 0,
       cursor: 0
@@ -86,7 +88,8 @@ var ReactMaskMixin = {
           }
         } else {
           newValue = newValue.substr(0, cursorMax)
-          if (this.mask.focused) {
+          if (this.mask.focusing ||
+              this.mask.focused) {
             newValueMasked = newValue + pattern.slice(cursorMax)
           }
           break
@@ -94,16 +97,23 @@ var ReactMaskMixin = {
       }
     }
 
+    var cursorCurr = 0
     var cursorPrev = this.mask.cursor
-    var cursorCurr = this.isMounted() ? this.getDOMNode().selectionStart : 0
-    var removing = this.mask.cursor > cursorCurr
     cursorMax = Math.max(cursorMax, cursorMin)
+
+    if (this.isMounted()) {
+      if (this.mask.focused) {
+        cursorCurr = this.getDOMNode().selectionStart
+      } else {
+        cursorCurr = cursorMax
+      }
+    }
 
     if (cursorCurr <= cursorMin) {
       cursorCurr = cursorMin
     } else if (cursorCurr >= cursorMax) {
       cursorCurr = cursorMax
-    } else if (removing) {
+    } else if (this.mask.cursor > cursorCurr) { //removing
       for (var i = cursorCurr; i >= 0; i--) {
         cursorCurr = i
         if (rexps[i] && !rexps[i+1]) break
@@ -149,6 +159,7 @@ var ReactMaskMixin = {
         this.props.valueLink.requestChange(value)
       }
 
+      this.mask.focused = false
       this.forceUpdate()
     }
     if (this.props.onBlur) {
@@ -180,8 +191,12 @@ var ReactMaskMixin = {
   },
 
   _onFocus: function(e) {
-    this.mask.focused = true
+    this.mask.focusing = true
     this._onChange(e)
+
+    this.mask.focusing = false
+    this.mask.focused = true
+
     if (this.props.onFocus) {
       this.props.onFocus(e)
     }

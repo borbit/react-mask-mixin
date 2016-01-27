@@ -378,6 +378,20 @@ describe('react-mask-mixin — cursor behaviour', function() {
 
     expect(input.selectionStart).to.be(3)
   })
+
+  it('should move cursor to the end if the input is filled #9', function() {
+    var input = Input({mask: '99999999', value: '111111'})
+    input.focus()
+    expect(input.selectionStart).to.be(6)
+  })
+
+  it('should move cursor to the end if the input is filled #10', function() {
+    var input = Input({mask: '99999999', value: '111111'})
+    input.focus()
+    input.blur()
+    input.focus()
+    expect(input.selectionStart).to.be(6)
+  })
 })
 
 describe('react-mask-mixin — public api', function() {
