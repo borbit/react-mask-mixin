@@ -152,6 +152,8 @@ var ReactMaskMixin = {
         this.mask.props.value = ''
       }
 
+      e.target.value = value
+
       if (this.props.onChange) {
         this.props.onChange(e)
       }
