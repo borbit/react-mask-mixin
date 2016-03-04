@@ -1,8 +1,8 @@
 // react-mask-mixin
 // http://github.com/borbit/react-mask-mixin
-// Copyright (c) 2015 Serge Borbit
+// Copyright (c) 2016 Serge Borbit
 // Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
-// Version: 0.0.7
+// Version: 0.0.10
 (function(root) {
 
 var MASK_REGEX = {
@@ -37,7 +37,7 @@ var ReactMaskMixin = {
     }
   },
 
-  componentDidUpdate: function() {
+  componentDidUpdate: function(prevProps) {
     var input = this.getDOMNode();
 
     if (input === document.activeElement) {
@@ -45,6 +45,11 @@ var ReactMaskMixin = {
         this.mask.cursor,
         this.mask.cursor
       )
+    }
+
+    if (prevProps.mask != this.props.mask) {
+      this.processValue(this.mask.props.value)
+      this.forceUpdate()
     }
   },
 
