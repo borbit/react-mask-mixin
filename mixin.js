@@ -2,8 +2,16 @@
 // http://github.com/borbit/react-mask-mixin
 // Copyright (c) 2016 Serge Borbit
 // Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
-// Version: 0.0.10
+// Version: 0.0.12
 (function(root) {
+
+var ReactDOM;
+
+if (typeof module !== 'undefined' && module.exports) {
+  ReactDOM = require('react-dom')
+} else if (typeof(window) !== 'undefined') {
+  ReactDOM = window.ReactDOM
+}
 
 var MASK_REGEX = {
   '9': /\d/,
@@ -38,7 +46,7 @@ var ReactMaskMixin = {
   },
 
   componentDidUpdate: function(prevProps) {
-    var input = this.getDOMNode();
+    var input = ReactDOM.findDOMNode(this);
 
     if (input === document.activeElement) {
       input.setSelectionRange(
@@ -108,7 +116,7 @@ var ReactMaskMixin = {
 
     if (this.isMounted()) {
       if (this.mask.focused) {
-        cursorCurr = this.getDOMNode().selectionStart
+        cursorCurr = ReactDOM.findDOMNode(this).selectionStart
       } else {
         cursorCurr = cursorMax
       }
@@ -190,7 +198,7 @@ var ReactMaskMixin = {
 
   _onKeyDown: function(e) {
     if (this.props.mask) {
-      this.mask.cursor = this.getDOMNode().selectionStart
+      this.mask.cursor = ReactDOM.findDOMNode(this).selectionStart
     }
     if (this.props.onKeyDown) {
       this.props.onKeyDown(e)

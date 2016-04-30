@@ -14,7 +14,7 @@ var Input = function(props) {
   var inst = React.createElement(InputComponent, props)
   body.innerHTML = ''
 
-  return React.findDOMNode(React.render(inst, body))
+  return ReactDOM.findDOMNode(ReactDOM.render(inst, body))
 }
 
 describe('dummy component', function() {
